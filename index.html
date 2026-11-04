@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101114">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Gym Tracker">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Gym Tracker</title>
+</head>
+<body>
+  <header class="topbar">
+    <div><div class="eyebrow">PERSONAL TRAINING LOG</div><h1>Gym Tracker</h1></div>
+    <button id="backupBtn" class="icon-btn" aria-label="Backup">↥</button>
+  </header>
+
+  <main id="app">
+    <section id="dashboard" class="screen active">
+      <div class="welcome"><div><p class="muted">Hôm nay</p><h2 id="todayLabel">Sẵn sàng tập luyện?</h2></div><span class="status-dot"></span></div>
+      <div class="stats-grid">
+        <article class="stat-card"><span>Buổi tập</span><strong id="totalWorkouts">0</strong><small>Tổng cộng</small></article>
+        <article class="stat-card"><span>Volume</span><strong id="weeklyVolume">0</strong><small>kg · 7 ngày</small></article>
+        <article class="stat-card"><span>Working sets</span><strong id="weeklySets">0</strong><small>7 ngày</small></article>
+        <article class="stat-card"><span>PR ghi nhận</span><strong id="prCount">0</strong><small>Bài tập</small></article>
+      </div>
+      <button class="primary-btn full" id="startWorkout">＋ Bắt đầu buổi tập</button>
+      <div class="section-head"><h3>Buổi tập gần đây</h3><button class="text-btn" data-go="history">Xem tất cả</button></div>
+      <div id="recentWorkouts" class="stack"><div class="empty">Chưa có dữ liệu. Hãy ghi lại buổi tập đầu tiên!</div></div>
+      <div class="section-head"><h3>Nhóm cơ tuần này</h3></div>
+      <div id="muscleSummary" class="panel"><div class="empty">Dữ liệu sẽ xuất hiện sau khi bạn tập.</div></div>
+    </section>
+
+    <section id="workout" class="screen">
+      <div class="page-heading"><p class="eyebrow">TRAINING SESSION</p><h2>Buổi tập</h2><p class="muted">Ghi lại từng working set của bạn.</p></div>
+      <div class="panel">
+        <label for="sessionName">Tên buổi tập</label>
+        <input id="sessionName" placeholder="Ví dụ: Full Body A">
+        <label for="exerciseSelect">Thêm bài tập</label>
+        <div class="inline-form"><select id="exerciseSelect"></select><button id="addExercise" class="secondary-btn">Thêm</button></div>
+      </div>
+      <div id="sessionExercises" class="stack"></div>
+      <div class="sticky-action"><button id="saveWorkout" class="primary-btn full">Lưu buổi tập</button></div>
+    </section>
+
+    <section id="exercises" class="screen">
+      <div class="page-heading"><p class="eyebrow">EXERCISE LIBRARY</p><h2>Thư viện bài tập</h2><p class="muted">Tìm kiếm và quản lý bài tập.</p></div>
+      <input id="exerciseSearch" placeholder="⌕  Tìm bài tập...">
+      <div class="filters" id="muscleFilters"></div>
+      <div id="exerciseLibrary" class="stack"></div>
+    </section>
+
+    <section id="history" class="screen">
+      <div class="page-heading"><p class="eyebrow">YOUR TRAINING LOG</p><h2>Lịch sử</h2><p class="muted">Tất cả các buổi tập đã lưu.</p></div>
+      <div id="historyList" class="stack"></div>
+    </section>
+
+    <section id="analytics" class="screen">
+      <div class="page-heading"><p class="eyebrow">PROGRESS & PERFORMANCE</p><h2>Tiến trình</h2><p class="muted">Theo dõi sức mạnh và khối lượng tập.</p></div>
+      <div class="panel"><h3>Volume theo tuần</h3><canvas id="volumeChart" height="190"></canvas><p class="muted tiny">Tổng kg × reps của các working set đã lưu.</p></div>
+      <div class="panel"><h3>Tiến bộ từng bài tập</h3><select id="analyticsExercise"></select><div id="exerciseProgress" class="progress-box">Chọn bài tập để xem lịch sử mức tạ và reps.</div></div>
+      <div class="panel"><h3>Volume theo nhóm cơ</h3><div id="muscleAnalytics"></div></div>
+    </section>
+
+    <section id="settings" class="screen">
+      <div class="page-heading"><p class="eyebrow">YOUR DATA</p><h2>Cài đặt & dữ liệu</h2></div>
+      <div class="panel">
+        <h3>Sao lưu dữ liệu</h3><p class="muted">Xuất toàn bộ lịch sử và thư viện tùy chỉnh thành file JSON.</p>
+        <button id="exportBtn" class="secondary-btn full">Xuất bản sao lưu JSON</button>
+        <label class="file-label">Khôi phục từ JSON<input id="importFile" type="file" accept="application/json"></label>
+      </div>
+      <div class="panel">
+        <h3>Dữ liệu trên thiết bị</h3><p class="muted">Dữ liệu được lưu trong trình duyệt trên iPhone. Xóa dữ liệu Safari hoặc gỡ dữ liệu website có thể làm mất lịch sử nếu chưa backup.</p>
+        <button id="clearBtn" class="danger-btn full">Xóa toàn bộ dữ liệu</button>
+      </div>
+      <p class="muted tiny">Gym Tracker · Local-first · Không gửi dữ liệu tập luyện lên máy chủ.</p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-go="dashboard"><span>⌂</span><small>Tổng quan</small></button>
+    <button class="nav-item" data-go="workout"><span>＋</span><small>Tập luyện</small></button>
+    <button class="nav-item" data-go="exercises"><span>▦</span><small>Bài tập</small></button>
+    <button class="nav-item" data-go="analytics"><span>↗</span><small>Tiến trình</small></button>
+    <button class="nav-item" data-go="settings"><span>⚙</span><small>Cài đặt</small></button>
+  </nav>
+  <div id="toast" role="status"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
